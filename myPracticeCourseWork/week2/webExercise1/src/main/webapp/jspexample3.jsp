@@ -5,6 +5,7 @@
     THIS EXAMPLE SHOWS HOW OBJECTS CAN BE STORED IN THE SESSION
 --%>
 
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.ArrayList" %>
@@ -25,6 +26,8 @@
         users.remove(name);
     } else if ("addUser".equals(action)) {
         users.add(name);
+        
+      
     }
 
 %>
@@ -37,12 +40,32 @@
     <body>
         <h1>JSP Example 3: User list</h1>
 
-        <h2>user list</h2>
-        <% for (String user : users) {%>
-        <p><%=user%></p>
-        <%
-            }
-        %>
+        <h2>Name</h2>
+        <table>
+            <tr>
+            <% for (String user : users) {%>
+                
+  
+                    <tr>
+                        <td><%=user%> </td>
+
+                        
+                        <td>
+                            <form action="./jspexample3b.jsp" method="get">
+                                 <input type="hidden" name="userName" value="<%=user%>">
+                                 <input type="hidden" name="action" value="removeUser">
+                                 <button type="submit" >remove</button>
+                            </form>
+                        </td>
+                             
+                    </tr>
+                    <%
+                        }
+                    %>
+            
+        
+       
+        </table>
         <h2>commands</h2>
         <form action="./jspexample3.jsp" method="get">
             <p>user name <input type="text" name="userName" value=""></p>
@@ -50,11 +73,7 @@
             <button type="submit" >add name to list</button>
         </form> 
         <br>
-        <form action="./jspexample3.jsp" method="get">
-            <p>user name <input type="text" name="userName" value=""></p>
-            <input type="hidden" name="action" value="removeUser">
-            <button type="submit" >remove name from list</button>
-        </form> 
+        <a href="./"> back to index page</a>
     
 
     </body>
