@@ -5,28 +5,32 @@
     THIS EXAMPLE SHOWS HOW OBJECTS CAN BE STORED IN THE SESSION
 --%>
 
-
+<%@ page import = "org.solent.oodd.webexercise1.model.User" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.ArrayList" %>
 <%
     // retrieve the stored users list from the session
-    List<String> users = (List<String>) session.getAttribute("users");
+    List<User> users = (List<User>) session.getAttribute("usersList");
     if (users == null) {
-        users = new ArrayList<String>();
-        session.setAttribute("users", users);
+        users = new ArrayList<User>();
+        session.setAttribute("usersList", users);
     }
 
     String name = request.getParameter("userName");
-
+    String address = request.getParameter("userAddress");
+    String index = request.getParameter("index");
     // find what action to perform on the page
     String action = request.getParameter("action");
 
     if ("removeUser".equals(action)) {
-        users.remove(name);
+        int i = Integer.parseInt(index);
+        users.remove(i);
     } else if ("addUser".equals(action)) {
-        users.add(name);
-        
+        User newUser = new User();
+        newUser.setName(name);
+        newUser.setAddress(address);
+        users.add(newUser);
       
     }
 
@@ -43,16 +47,20 @@
         <h2>Name</h2>
         <table>
             <tr>
-            <% for (String user : users) {%>
-                
+                <% for (int idx = 0;idx<users.size(); idx++){
+                        User newUser = users.get(idx);
+                %>
+                            
   
                     <tr>
-                        <td><%=user%> </td>
-
+                        <td><%=idx + 1%> </td>
+                        <td><%=newUser.getName()%></td>    
+                        <td><%=newUser.getAddress()%></td>
+                                
                         
                         <td>
                             <form action="./jspexample3b.jsp" method="get">
-                                 <input type="hidden" name="userName" value="<%=user%>">
+                                 <input type="hidden" name="index" value="<%=idx%>">
                                  <input type="hidden" name="action" value="removeUser">
                                  <button type="submit" >remove</button>
                             </form>
@@ -69,8 +77,10 @@
         <h2>commands</h2>
         <form action="./jspexample3.jsp" method="get">
             <p>user name <input type="text" name="userName" value=""></p>
+            <p> Address <input type="text" name="userAddress" value=""></p>
             <input type="hidden" name="action" value="addUser">
-            <button type="submit" >add name to list</button>
+            <input type="hidden" name="action" value ="addUser">
+            <button type="submit" >add user to list</button>
         </form> 
         <br>
         <a href="./"> back to index page</a>
