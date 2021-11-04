@@ -59,10 +59,14 @@
                                 
                         
                         <td>
-                            <form action="./jspexample3b.jsp" method="get">
+                            <form action="./jspexample3.jsp" method="get">
                                  <input type="hidden" name="index" value="<%=idx%>">
                                  <input type="hidden" name="action" value="removeUser">
                                  <button type="submit" >remove</button>
+                            </form>
+                            <form action="./jspexample3-modify.jsp" method="get">
+                                 <input type="hidden" name="index" value="<%=idx%>">
+                                 <button type="submit" >modify</button>
                             </form>
                         </td>
                              
