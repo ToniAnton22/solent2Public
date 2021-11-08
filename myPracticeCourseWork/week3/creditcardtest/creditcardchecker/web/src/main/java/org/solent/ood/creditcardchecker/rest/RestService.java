@@ -93,9 +93,23 @@ public class RestService {
     public Response postValidateFullCard(CreditCard creditCard) {
         try {
             LOG.debug("/validateCard called creditCArd:" + creditCard);
-
+            ReplyMessage replyMessage = new ReplyMessage();
+            CardValidationResult result = RegexCardValidator.isValid(creditCard.getCardnumber());
+            
+            replyMessage.setCardValidationResult(result);
+            
+            if(result.isValid()){
+                replyMessage.setCode(Response.Status.OK.getStatusCode());
+                return  Response.status(Response.Status.OK).entity(replyMessage).build();
+                
+            }else{
+                replyMessage.setCode(Response.Status.BAD_REQUEST.getStatusCode());
+                
+                return Response.status(Response.Status.BAD_REQUEST).entity(replyMessage).build();
+            }
+            
             //TODO add code here to validate the card
-            throw new UnsupportedOperationException("post /validateCard NOT IMPLEMENTED - TODO IMPLEMENT THIS METHOD");
+        
 
         } catch (Exception ex) {
             LOG.error("error calling POST /validateCard ", ex);
@@ -105,5 +119,5 @@ public class RestService {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(replyMessage).build();
         }
     }
-
+    
 }
